@@ -175,6 +175,3 @@ VITE_API_URL=https://your-backend-domain.onrender.com
 - `POST /api/interviews/:interviewId/complete`
 - `GET /api/interviews/history`
 
-## Notes for College Submission
-
-This project is built with a reliable deployment shape: environment variables, protected routes, database persistence, rate limiting, API health check, Docker support, and fallback AI behavior. During viva or demo, the platform can still generate sample questions and feedback even if the AI API key is not configured.

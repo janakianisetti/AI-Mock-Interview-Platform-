@@ -1,0 +1,20 @@
+{
+  "name": "interviewace-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Deploy-ready AI mock interview platform for placement preparation.",
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace backend\" \"npm run dev --workspace frontend\"",
+    "install:all": "npm install --workspaces",
+    "start": "npm run start --workspace backend",
+    "build": "npm run build --workspace frontend",
+    "lint": "npm run lint --workspace frontend"
+  },
+  "workspaces": [
+    "backend",
+    "frontend"
+  ],
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

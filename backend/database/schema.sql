@@ -1,0 +1,57 @@
+CREATE DATABASE IF NOT EXISTS interviewace;
+USE interviewace;
+
+CREATE TABLE IF NOT EXISTS users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(120) NOT NULL,
+  email VARCHAR(160) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS resumes (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  filename VARCHAR(255) NOT NULL,
+  extracted_text MEDIUMTEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS interviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  role VARCHAR(120) NOT NULL,
+  difficulty VARCHAR(40) NOT NULL,
+  status ENUM('IN_PROGRESS', 'COMPLETED') DEFAULT 'IN_PROGRESS',
+  overall_score INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  completed_at TIMESTAMP NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS questions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  interview_id INT NOT NULL,
+  question_text TEXT NOT NULL,
+  category VARCHAR(80) NOT NULL,
+  expected_points JSON,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (interview_id) REFERENCES interviews(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS answers (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  question_id INT NOT NULL,
+  user_id INT NOT NULL,
+  answer_text TEXT NOT NULL,
+  score INT NOT NULL,
+  level VARCHAR(60) NOT NULL,
+  strengths JSON,
+  improvements JSON,
+  ideal_answer TEXT,
+  hr_feedback TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE,
+  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

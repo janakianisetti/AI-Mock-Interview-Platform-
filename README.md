@@ -84,6 +84,8 @@ Frontend: `http://localhost:5173`
 
 Backend health check: `http://localhost:5000/health`
 
+If MySQL is not running locally, the backend automatically uses in-memory demo storage. That lets signup, login, interviews, and feedback work for a quick demo. For permanent data and deployment, run MySQL and load `backend/database/schema.sql`.
+
 ## Docker Setup
 
 Create a `.env` file in the root if you want AI responses:

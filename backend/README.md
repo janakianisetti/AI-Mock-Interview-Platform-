@@ -22,6 +22,8 @@ Run:
 mysql -u root -p < database/schema.sql
 ```
 
+If MySQL is unavailable during local development, the API falls back to in-memory demo storage for the current server session.
+
 ## Health Check
 
 ```text

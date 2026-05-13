@@ -11,10 +11,22 @@ import { errorHandler, notFound } from "./middleware/errors.js";
 
 const app = express();
 
+const allowedOrigins = new Set([
+  config.clientUrl,
+  "http://localhost:5173",
+  "http://127.0.0.1:5173"
+]);
+
 app.use(helmet());
 app.use(
   cors({
-    origin: config.clientUrl,
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.has(origin) || /^http:\/\/(10|172\.(1[6-9]|2\d|3[0-1])|192\.168)\.\d{1,3}\.\d{1,3}:5173$/.test(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("Not allowed by CORS"));
+    },
     credentials: true
   })
 );
@@ -39,6 +51,6 @@ app.use("/api/interviews", interviewRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-app.listen(config.port, () => {
+app.listen(config.port, "0.0.0.0", () => {
   console.log(`InterviewAce API running on port ${config.port}`);
 });
